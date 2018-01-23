@@ -1,0 +1,1 @@
+Stores files used by all projects in the common directory.
