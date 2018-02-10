@@ -27,9 +27,9 @@ function render() {
 
   angle += 5.0; // degrees
 
-  Cube.MV = rotate( angle, [1, 1, 0] );
+  cube.MV = rotate( angle, [1, 1, 0] );
 
-  Cube.render();
+  cube.render();
 
   requestAnimationFrame( render ); // schedule another call to render()
 }
