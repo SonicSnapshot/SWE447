@@ -122,7 +122,7 @@ function Cube( vertexShaderId, fragmentShaderId ) {
     this.positions.attributeLoc = gl.getAttribLocation( this.program, "vPosition" );
     gl.enableVertexAttribArray( this.positions.attributeLoc );
     
-    this.colors.attributeLoc = gl.getAttributeLocation( this.program, "vColor" );
+    this.colors.attributeLoc = gl.getAttribLocation( this.program, "vColor" );
     gl.enableVertexAttribArray( this.colors.attributeLoc);
 
     MVLoc = gl.getUniformLocation( this.program, "MV" );
