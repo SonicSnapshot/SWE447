@@ -137,7 +137,7 @@ function Cube( vertexShaderId, fragmentShaderId ) {
             gl.FLOAT, gl.FALSE, 0, 0 );
         
         gl.bindBuffer(gl.ARRAY_BUFFER, this.colors.buffer );
-        gl.vertexAttribPointer( this.color.attributeLoc, this.colors.numComponents, gl.FLOAT, gl.FALSE, 0.0 );
+        gl.vertexAttribPointer( this.colors.attributeLoc, this.colors.numComponents, gl.FLOAT, gl.FALSE, 0.0 );
  
         gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.indices.buffer );
 
