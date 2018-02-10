@@ -18,7 +18,42 @@ function Cube( vertexShaderId, fragmentShaderId ) {
 
     this.positions = { 
         values : new Float32Array([
-           // Add your list vertex positions here
+           // Front
+            -0.5, -0.5, 0.5
+            0.5, -0.5, 0.5
+            0.5, 0.5, 0.5
+            -0.5, 0.5, 0.5
+            
+            // Back
+            -0.5, -0.5, -0.5
+            -0.5, 0.5, -0.5
+            0.5, 0.5, -0.5
+            0.5, -0.5, -0.5
+            
+            // Top
+            -0.5, 0.5, -0.5
+            -0.5, 0.5, 0.5
+            0.5, 0.5, 0.5
+            0.5, 0.5, -0.5
+            
+            
+            // Bottom
+            -0.5, -0.5, -0.5
+            0.5, -0.5, -0.5
+            0.5, -0.5, 0.5
+            -0.5, -0.5, 0.5
+            
+            // Right
+            0.5, -0.5, -0.5
+            0.5, 0.5, -0.5
+            0.5, 0.5, 0.5
+            0.5, -0.5, 0.5
+            
+            // Left
+            -0.5, -0.5, -0.5
+            -0.5, -0.5, 0.5
+            -0.5, 0.5, 0.5
+            -0.5, 0.5, -0.5
             ]),
         numComponents : 3
     };
@@ -29,6 +64,48 @@ function Cube( vertexShaderId, fragmentShaderId ) {
         ])
     };
     this.indices.count = this.indices.values.length;
+    
+    this.colors = {
+        values : new Float32Array([
+            //Front
+            0.1, 0.2, 0.3
+            0.4, 0.5, 0.6
+            0.7, 0.8, 0.9
+            //Back
+            0.1, 0.2, 0.3
+            0.4, 0.5, 0.8
+            0.6, 0.8, 0.3
+            //Top
+            0.7, 0.2, 0.3
+            0.4, 0.6, 0.6
+            0.8, 0.8, 0.1
+            //Bottom
+            0.1, 0.2, 0.5
+            0.4, 0.2, 0.6
+            0.6, 0.8, 0.4
+            //Right
+            0.1, 0.1, 0.6
+            0.2, 0.5, 0.6
+            0.7, 0.9, 0.9
+            //Left
+            0.4, 0.2, 0.3
+            0.4, 0.2, 0.7
+            0.4, 0.8, 0.3
+        ]),
+        numComponents : 3
+    };
+    
+    this.indicies = {
+        values : new  Uint16Array([
+            0, 2, 1, 0, 3, 2,       //Front
+            4, 6, 5, 4, 7, 6,       //Back
+            8, 10, 9, 8, 11, 10,    //Top
+            12, 14, 13, 12, 15, 14, //Bottom
+            16, 18, 27, 16, 19, 18, //Right
+            20, 22, 21, 20, 23, 22  //Left
+            ])
+    };
+    this.indices.count = this.indicies.length;
 
     
     this.positions.buffer = gl.createBuffer();
