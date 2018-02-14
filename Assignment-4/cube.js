@@ -2,11 +2,20 @@
 var cube = undefined;
 var gl = undefined;
 var angle = 0;
+var rotationAxis;
+var xAxis = [1, 0, 0];
+var yAxis = [0, 1, 0];
 
 function init() {
   var canvas = document.getElementById( "webgl-canvas" );
 
   gl = WebGLUtils.setupWebGL( canvas );
+  
+  consol.log("Someone pressed the xButton");
+  
+  //document.getElementById("xButton").onclick = function() {
+  //  rotationAxis = xAxis;
+  }
 
   if ( !gl ) {
     alert("Unable to setup WebGL");
@@ -32,6 +41,8 @@ function render() {
   cube.render();
 
   requestAnimationFrame( render ); // schedule another call to render()
+  
+  //ms.rotate(speed * angle, rotationAxis);
 }
 
 window.onload = init;
