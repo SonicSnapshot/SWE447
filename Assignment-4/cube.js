@@ -12,7 +12,7 @@ function init() {
   gl = WebGLUtils.setupWebGL( canvas );
   
   document.getElementById("xButton").onclick = function() {
-  //  rotationAxis = xAxis;
+    rotationAxis = xAxis;
     console.log("Someone pressed the xButton");
   }
 
@@ -41,7 +41,7 @@ function render() {
 
   requestAnimationFrame( render ); // schedule another call to render()
   
-  //ms.rotate(speed * angle, rotationAxis);
+  ms.rotate(speed * angle, rotationAxis);
 }
 
 window.onload = init;
