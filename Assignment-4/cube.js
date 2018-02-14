@@ -15,6 +15,10 @@ function init() {
     rotationAxis = xAxis;
     console.log("Someone pressed the xButton");
   }
+  
+  document.getElementByID("slider".onchange = function() {
+    speed = 100 - event.srcElement.value;
+  }
 
   if ( !gl ) {
     alert("Unable to setup WebGL");
