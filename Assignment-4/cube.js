@@ -25,7 +25,7 @@ function init() {
     switch( event.KeyBoard.Key){
       case 'f' : speed += 10; break;
       case 's; : speed -= 10; break;
-    }
+    };
  }
 
   if ( !gl ) {
