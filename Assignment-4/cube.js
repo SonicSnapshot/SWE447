@@ -11,11 +11,10 @@ function init() {
 
   gl = WebGLUtils.setupWebGL( canvas );
   
-  console.log("Someone pressed the xButton");
-  
-  //document.getElementById("xButton").onclick = function() {
+  document.getElementById("xButton").onclick = function() {
   //  rotationAxis = xAxis;
-  //}
+    console.log("Someone pressed the xButton");
+  }
 
   if ( !gl ) {
     alert("Unable to setup WebGL");
