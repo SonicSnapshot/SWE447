@@ -15,7 +15,7 @@ function init() {
   
   //document.getElementById("xButton").onclick = function() {
   //  rotationAxis = xAxis;
-  }
+  //}
 
   if ( !gl ) {
     alert("Unable to setup WebGL");
