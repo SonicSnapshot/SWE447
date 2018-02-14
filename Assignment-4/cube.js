@@ -12,12 +12,13 @@ function init() {
   gl = WebGLUtils.setupWebGL( canvas );
   
   document.getElementById("xButton").onclick = function() {
-    rotationAxis = xAxis;
+    //rotationAxis = xAxis;
     console.log("Someone pressed the xButton");
   }
   
   document.getElementByID("slider".onchange = function() {
-    speed = 100 - event.srcElement.value;
+    //speed = 100 - event.srcElement.value;
+    console.log("Someone moved the slider");
   }
 
   if ( !gl ) {
