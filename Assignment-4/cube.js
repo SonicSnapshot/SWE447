@@ -11,7 +11,7 @@ function init() {
 
   gl = WebGLUtils.setupWebGL( canvas );
   
-  consol.log("Someone pressed the xButton");
+  console.log("Someone pressed the xButton");
   
   //document.getElementById("xButton").onclick = function() {
   //  rotationAxis = xAxis;
