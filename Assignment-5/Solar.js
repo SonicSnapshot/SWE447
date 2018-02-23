@@ -138,7 +138,7 @@ function render() {
   // system (and hence, has no translation to its location).
 
   ms.push();
-  ms.scale(data.radius);
+  ms.scale(scale);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
   gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
@@ -161,11 +161,11 @@ function render() {
   planet.PointMode = false;
   
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
-  ms.translate(data.distance*10,0,0);
+  ms.rotate(year*time, [0,0,1]);
+  ms.translate(distance*10,0,0);
   ms.push();
   //so the moon will be in the eath's system
-  ms.scale(data.radius);
+  ms.scale(scale);
   
   ms.pop();
   
@@ -187,9 +187,9 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
-  ms.scale(data.radius);
-  ms.translate(data.distance*1000,0,0);
+  ms.rotate(year*time, [0,0,1]);
+  ms.scale(scale);
+  ms.translate(distance*1000,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
   gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
@@ -209,9 +209,9 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
-  ms.scale(data.radius);
-  ms.translate(data.distance*10,0,0);
+  ms.rotate(year*time, [0,0,1]);
+  ms.scale(scale);
+  ms.translate(distance*10,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
   gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
