@@ -127,7 +127,7 @@ function render() {
   // "planet" variable is set for each object, you will need to set this
   // for each planet separately.
 
-  planet.PointMode = true;
+  planet.PointMode = false;
 
   // Use the matrix stack to configure and render a planet.  How you rener
   // each planet will be similar, but not exactly the same.  In particular,
@@ -147,14 +147,15 @@ function render() {
   //  Add your code for more planets here!
   //
   
-  planet.PointMode = true;
-  
   name = "Earth";
   planet = Planets[name];
   data = SolarSystem[name];
   
+  planet.PointMode = false;
   ms.push();
+  ms.rotate(data.year*time);
   ms.scale(data.radius);
+  ms.translate(data.distance);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
   gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
