@@ -115,14 +115,11 @@ function render() {
   // about the planets in SolarSystem.  Look at how these are
   // used; it'll simplify the work you need to do.
 
-  var name, planet, data, year, scale, distance;
+  var name, planet, data;
 
   name = "Sun";
   planet = Planets[name];
   data = SolarSystem[name];
-  year = data.year * 10;
-  scale = data.scale * 10;
-  distance = data.distance * 10;
   
   // Set PointMode to true to render all the vertices as points, as
   // compared to filled triangles.  This can be useful if you think
@@ -154,9 +151,6 @@ function render() {
   name = "Earth";
   planet = Planets[name];
   data = SolarSystem[name];
-  year = data.year * 10;
-  scale = data.scale * 10;
-  distance = data.distance * 10;
   
   planet.PointMode = false;
   
@@ -181,14 +175,11 @@ function render() {
   name = "Moon";
   planet = Planets[name];
   data = SolarSystem[name];
-  year = data.year * 10;
-  scale = data.scale * 10;
-  distance = data.distance * 10;
   
   planet.PointMode = false;
   ms.push();
   ms.rotate(data.year*time, [0,0,1]);
-  ms.scale(data.radius);
+  ms.scale(data.radius*1.5);
   ms.translate(data.distance*1000,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
@@ -203,14 +194,11 @@ function render() {
   name = "Mercury";
   planet = Planets[name];
   data = SolarSystem[name];
-  year = data.year * 10;
-  scale = data.scale * 10;
-  distance = data.distance * 10;
   
   planet.PointMode = false;
   ms.push();
   ms.rotate(data.year*time, [0,0,1]);
-  ms.scale(data.radius);
+  ms.scale(data.radius*3);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
