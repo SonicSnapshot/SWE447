@@ -155,7 +155,7 @@ function render() {
   planet.PointMode = false;
   
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.translate(data.distance*10,0,0);
   ms.push();
   //so the moon will be in the eath's system
@@ -178,7 +178,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius*1.5);
   ms.translate(data.distance*1000,0,0);
   gl.useProgram(planet.program);
@@ -197,7 +197,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius*15);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -214,7 +214,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -231,7 +231,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -248,7 +248,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate((data.distance-3)*10,0,0);
   gl.useProgram(planet.program);
@@ -265,7 +265,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -282,7 +282,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -299,7 +299,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
@@ -316,7 +316,7 @@ function render() {
   
   planet.PointMode = false;
   ms.push();
-  ms.rotate(data.year*time, [0,0,1]);
+  ms.rotate(data.year/time, [0,0,1]);
   ms.scale(data.radius);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
