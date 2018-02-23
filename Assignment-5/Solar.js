@@ -18,7 +18,7 @@ var gl;
 
 var Planets = {
   Sun : undefined,
-  // Mercury : undefined,
+  Mercury : undefined,
   // Venus : undefined,
   Earth : undefined,
   Moon : undefined,
@@ -152,7 +152,7 @@ function render() {
   planet = Planets[name];
   data = SolarSystem[name];
   
-  planet.PointMode = false;
+  planet.PointMode = true;
   ms.push();
   ms.rotate(data.year*time, [0,0,1]);
   ms.scale(data.radius);
@@ -167,6 +167,23 @@ function render() {
   
   //Moon
   name = "Moon";
+  planet = Planets[name];
+  data = SolarSystem[name];
+  
+  planet.PointMode = false;
+  ms.push();
+  ms.rotate(data.year*time, [0,0,1]);
+  ms.scale(data.radius);
+  ms.translate(data.distance*10,0,0);
+  gl.useProgram(planet.program);
+  gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
+  gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
+  gl.uniform4fv(planet.uniforms.color, flatten(data.color));
+  planet.render();
+  ms.pop();
+  
+  //Mercury
+  name = "Mercury";
   planet = Planets[name];
   data = SolarSystem[name];
   
