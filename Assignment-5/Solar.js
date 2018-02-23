@@ -168,7 +168,7 @@ function render() {
   gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
   gl.uniform4fv(planet.uniforms.color, flatten(data.color));
   planet.render();
-  ms.pop();
+  //dont pop after earth so moon stays in system
   
   
   //Moon
