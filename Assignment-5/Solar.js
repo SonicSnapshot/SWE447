@@ -153,9 +153,15 @@ function render() {
   data = SolarSystem[name];
   
   planet.PointMode = false;
+  
   ms.push();
   ms.rotate(data.year*time, [0,0,1]);
+  ms.push(); 
+  //so the moon will be in the eath's system
   ms.scale(data.radius);
+  
+  ms.pop();
+  
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
@@ -181,6 +187,8 @@ function render() {
   gl.uniform4fv(planet.uniforms.color, flatten(data.color));
   planet.render();
   ms.pop();
+  ms.pop();
+  //back to before the earth
   
   //Mercury
   name = "Mercury";
