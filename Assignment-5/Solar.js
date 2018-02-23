@@ -19,7 +19,7 @@ var gl;
 var Planets = {
   Sun : undefined,
   Mercury : undefined,
-  // Venus : undefined,
+  Venus : undefined,
   Earth : undefined,
   Moon : undefined,
   // Mars : undefined,
@@ -198,7 +198,24 @@ function render() {
   planet.PointMode = false;
   ms.push();
   ms.rotate(data.year*time, [0,0,1]);
-  ms.scale(data.radius*20);
+  ms.scale(data.radius*15);
+  ms.translate(data.distance*10,0,0);
+  gl.useProgram(planet.program);
+  gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
+  gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
+  gl.uniform4fv(planet.uniforms.color, flatten(data.color));
+  planet.render();
+  ms.pop();
+  
+  //Venus
+  name = "Venus";
+  planet = Planets[name];
+  data = SolarSystem[name];
+  
+  planet.PointMode = false;
+  ms.push();
+  ms.rotate(data.year*time, [0,0,1]);
+  ms.scale(data.radius*15);
   ms.translate(data.distance*10,0,0);
   gl.useProgram(planet.program);
   gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
