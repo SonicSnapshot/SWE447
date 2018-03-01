@@ -35,12 +35,14 @@ function init() {
     
     
     canvas.onmousedown = function handleMouseDown(event) {
+        console.log("mouseDown")
         mouseDown = true;
         lastMouseX = event.clientX;
         lastMouseY = event.clientY;
     }
 
     document.onmouseup = function handleMouseUp(event) {
+        console.log("mouseUp")
         mouseDown = false;
         if (stoprotating) dAngle = 0.0;
         return;
