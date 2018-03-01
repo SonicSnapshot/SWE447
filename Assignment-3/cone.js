@@ -54,6 +54,8 @@ function init() {
       if(stoprotating) dAngle = 0.0;
       return;
     }
+        
+    console.log("moving")
     var newX = event.clientX;
     var newY = event.clientY;
 
