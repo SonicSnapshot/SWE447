@@ -33,15 +33,6 @@ function init() {
         return;
     }
     
-    if(document.getElementById("cBox").checked == true) {
-            dAngle = 0.0;
-            stoprotating = 1;
-        }
-        else {
-            dAngle = 2.0;
-            stoprotating = 0;
-        }
-    
     
     canvas.onmousedown = function handleMouseDown(event) {
         mouseDown = true;
