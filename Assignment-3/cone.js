@@ -101,6 +101,7 @@ function resize(){
     var fovy = 120.0;
     aspect = width/height
     Cone.P = perspective(fovy, aspect, near, far) //wherever you are
+}
 
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
