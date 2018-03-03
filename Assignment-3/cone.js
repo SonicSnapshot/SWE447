@@ -139,7 +139,7 @@ function resize() {
     height = canvas.clientHeight;
     gl.viewport(0,0,width,height);
     var fovy = 120;
-    aspect = widht/height;
+    aspect = width/height;
     cone.P = perpspective(fovy,apsect,near,far);
 }
 
