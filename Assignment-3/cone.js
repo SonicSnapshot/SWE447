@@ -133,7 +133,7 @@ function render() {
     window.requestAnimationFrame(render);
 }
 
-fucntion resize() {
+function resize() {
     var width = canvas.clientWidth;
     var height = canvas.clientHeight;
     gl.veiwport(0,0,width,height);
