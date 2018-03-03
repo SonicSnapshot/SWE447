@@ -54,10 +54,7 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
     // build up an array of those calls' parameters to simplify rendering
     var drawCalls = [];
 
-    // Generate the indices for the North Pole cap.  "indices.length" will
-    // be zero at this point, but you'll see the pattern of using indices'
-    // length value in future computations, so we use it here as well to
-    // not break the pattern 
+    // Generate the indices for the North Pole cap.  
     var start = indices.length; // this will be zero here, but 
     var offset = start * 2 /* sizeof(gl.UNSIGNED_SHORT) */ ;
 
