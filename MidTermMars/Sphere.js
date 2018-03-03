@@ -21,8 +21,9 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
 	var normals = [];
 	var texCoords = [];
 
-    positions.push(0.0, 0.0, 1.0);
-	normals.push(0.0, 0.0, 1.0);
+    positions.push( 0.0, 0.0, 1.0);
+	normals.push(0.0, 0.0, 1.0 );
+	
 	texCoords.push(0.0, 0.0);
 
     for (j = 1; j < nStacks; ++j) {
@@ -43,9 +44,9 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
         }
     }
 
-    positions.push(0.0, 0.0, -1.0);
-	normals.push(0.0, 0.0, -1.0);
-	texCoords.push(1.0, 0.0);
+    positions.push( 0.0, 0.0, -1.0);
+	normals.push( 0.0, 0.0, -1.0);
+	texCoords.push( 1.0, 0.0);
 
     // Generate the sphere's topology (i.e., indices)
     var indices = [];
@@ -132,8 +133,7 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
 	}
 	
 	gl.bindBuffer(gl.ARRAY_BUFFER, vNormal.buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals),
-        gl.STATIC_DRAW);
+    	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
 
     gl.enableVertexAttribArray(vNormal.location);
 	
@@ -154,8 +154,7 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
     };
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, elementArray.buffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices),
-        gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 		
 	var texture = null;
 	var textureHasLoaded = false;
@@ -184,9 +183,8 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
 		gl.bindTexture(gl.TEXTURE_2D, null);
 		textureHasLoaded = true;
 	}
-
-	//TODO: Figure out how to handle CORS domain errors later
-
+	
+	// sets the texture to the jpg file
 	diffuseTexture.image.src = "mars.jpg";
 
     // Initialize our externally viewable variables
