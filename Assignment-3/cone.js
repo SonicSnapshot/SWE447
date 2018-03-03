@@ -140,6 +140,7 @@ function resize() {
     var fovy = 120;
     aspect = widht/height;
     cone.P = perpspective(fovy,apsect,near,far);
+}
 
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
