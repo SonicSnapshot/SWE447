@@ -33,6 +33,27 @@ function init() {
         return;
     }
     
+    document.getElementById("cBox").onclick = function() {
+        if(document.getElementById("cBox").checked == true) {
+            dAngle = 0.0;
+            stoprotating = 1;
+        } else {
+            dAngle = 0.0;
+            stoproatating = 0;
+        }
+    }
+    
+    document.getElementById("slider").onchange = function(event){
+        speed = event.target.value / 10;
+    }
+    
+    docuemnt.getElementById("xButton").onclick = function() {
+        rotationAxis = xAxis;
+    }
+    
+    document.getElementById("yButton").onclick = function() {
+        rotationAxis = yAxis;
+    }
     
     canvas.onmousedown = function handleMouseDown(event) {
         console.log("mouseDown")
@@ -64,9 +85,28 @@ function init() {
     dAngle = degToRad(deltaX + deltaY) * Math.PI * 5;
     lastMouseX = newX;
     lastMouseY = newY;
-    }  
+    }
+    
+    document.onkeydown = function handleKeyDown(event) {
+        mkey = event.which || event.keyCode;
+        switch(mkey) {
+            //Page Up
+            case 33 : zvalue -= 0.05; break;
+            //Page Down
+            case 34 : zvalue += 0.05; break;
+            // left cursor key
+            case 37 : offset = [-3.0, 0.0, 0.0]; break;
+            // right cursor key
+            case 38 : offset = [0.0, 3.0, 0.0]; break;
+            // up cursor key
+            case 39 : offset = [0.0, -3.0, 0.0]; break;
+            // down cursor key
+            case 40 : offset = [0.0, 0.0, 0.0]; break;
+        }
+    }
 
     gl.clearColor( 1.0, 1.0, 0.0, 1.0 );
+    gl.enable(gl.DEPTH_TEST)
     cone = new Cone(gl,90);
     render();
 }
@@ -93,9 +133,17 @@ function render() {
     window.requestAnimationFrame(render);
 }
 
+fucntion resize() {
+    var width = canvas.clientWidth;
+    var height = canvas.clientHeight;
+    gl.veiwport(0,0,width,height);
+    var fovy = 120;
+    aspect = widht/height;
+    cone.P = perpspective(fovy,apsect,near,far);
 
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
 }
 
 window.onload = init;
+widnow.onresize = resize;
