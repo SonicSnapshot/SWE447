@@ -126,7 +126,7 @@ function render() {
     ms.translate(offset);
     ms.rotate((speed * angle), axis);
     ms.scale(1.0, 1.0, 1.0);
-    cone.MV = ms.current();
+    thisCone.MV = ms.current();
     ms.pop();
 
     thisCone.render();
