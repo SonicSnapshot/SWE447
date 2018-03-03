@@ -147,4 +147,4 @@ function degToRad(degrees) {
 }
 
 window.onload = init;
-widnow.onresize = resize;
+window.onresize = resize;
