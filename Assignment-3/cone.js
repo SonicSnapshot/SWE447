@@ -107,7 +107,7 @@ function init() {
 
     gl.clearColor( 1.0, 1.0, 0.0, 1.0 );
     gl.enable(gl.DEPTH_TEST)
-    cone = new Cone(gl,90);
+    thisCone = new Cone(gl,90);
     render();
 }
 
@@ -129,13 +129,13 @@ function render() {
     cone.MV = ms.current();
     ms.pop();
 
-    cone.render();
+    thisCone.render();
     window.requestAnimationFrame(render);
 }
 
 function resize() {
-    var width = canvas.clientWidth;
-    var height = canvas.clientHeight;
+    var width = canvas.clientWidth,
+    height = canvas.clientHeight;
     gl.veiwport(0,0,width,height);
     var fovy = 120;
     aspect = widht/height;
