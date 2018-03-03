@@ -1,4 +1,4 @@
-var cube = null;
+var thisCone = null;
 var gl = null;
 
 var canvas = undefined;
