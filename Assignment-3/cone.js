@@ -68,7 +68,6 @@ function init() {
 
     gl.clearColor( 1.0, 1.0, 0.0, 1.0 );
     cone = new Cone(gl,90);
-    resize();
     render();
 }
 
@@ -94,20 +93,9 @@ function render() {
     window.requestAnimationFrame(render);
 }
 
-function resize(){
-    var width = canvas.clientWidth;
-    var height = canvas.clientHeight;
-    gl.viewport(0,0,width,height);
-    var fovy = 120.0;
-    aspect = width/height
-    Cone.P = perspective(fovy, aspect, near, far) //wherever you are
-}
 
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
 }
 
 window.onload = init;
-window.onresize = resize;
-
-    
