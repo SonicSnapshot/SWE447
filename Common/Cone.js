@@ -1,10 +1,7 @@
 const DefaultNumSides = 8;
 
 function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
-
-    // Initialize the shader pipeline for this object using either shader ids
-    //   declared in the application's HTML header, or use the default names.
-    //
+    
     var vertShdr = vertexShaderId || "Cone-vertex-shader";
     var fragShdr = fragmentShaderId || "Cone-fragment-shader";
 
@@ -33,7 +30,7 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
     // Initialize temporary arrays for the Cone's indices and vertex positions
     //
     var positions = [ 0.0, 0.0, 0.0 ];
-    var colors = [1.0, 0.0, 0.0 ];
+    var colors = [ 1.0, 0.0, 0.0 ];
     var indices = [ 0 ];
     
     for ( var i = 0; i < n; ++i ) {
@@ -45,27 +42,18 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
     }
 
     positions.push( 0.0, 0.0, 1.0 );
-    colors.push(1.0, 0.0, 0.0);
+    colors.push( 1.0, 0.0, 0.0);
     
-    // Close the triangle fan by repeating the first (non-center) point.
-    //
+    // Close the triangle fan by repeating the first point
     indices.push(n);
 
-    // Record the number of indices in one of our two disks that we're using to make the
-    //   cone.  At this point, the indices array contains the correct number of indices for a
-    //   single disk, and as we render the cone as two disks of the same size, this value is
-    //   precisely what we need.
-    //
+
     this.indices = { count : indices.length };
 
-    // Now build up the list for the cone.  First, add the apex vertex onto the index list
-    //
+  
     indices.push(n + 1);
 
-    // Next, we need to append the rest of the vertices for the permieter of the disk.
-    // However, the cone's perimeter vertices need to be reversed since it's effectively a
-    // reflection of the bottom disk.
-    //
+  
     indices = indices.concat( indices.slice(1,n+2).reverse() );
 
     this.positions.buffer = gl.createBuffer();
@@ -82,6 +70,9 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
 
     this.positions.attributeLoc = gl.getAttribLocation( this.program, "vPosition" );
     gl.enableVertexAttribArray( this.positions.attributeLoc );
+    
+    this.colors.attributeLoc = gl.getAttribLocation( this.program, "vColor" );
+    gl.enableVertexAttribArray( this.colors.attributeLoc );
     
     this.uniforms = {
             MV : undefined,
