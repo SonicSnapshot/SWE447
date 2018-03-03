@@ -45,7 +45,7 @@ function init() {
     
     document.getElementById("slider").onchange = function(event){
         speed = event.target.value / 10;
-    }
+    };
     
     document.getElementById("xButton").onclick = function() {
         rotationAxis = xAxis;
