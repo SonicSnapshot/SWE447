@@ -18,8 +18,12 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
     var dTheta = 2.0 * Math.PI / nSlices;
 
     var positions = [];
+	var normals = [];
+	var texCoords = [];
 
     positions.push(0.0, 0.0, 1.0);
+	normals.push(0.0, 0.0, 1.0);
+	texCoords.push(0.0, 0.0);
 
     for (j = 1; j < nStacks; ++j) {
         var phi = j * dPhi;
@@ -32,10 +36,16 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
             var y = Math.sin(theta) * sinPhi;
 
             positions.push(x, y, z);
+			normals.push(x, y, z);
+			
+			//Push uv coords per vertex
+			texCoords.push(i / (nSlices - 1), j / nStacks);
         }
     }
 
     positions.push(0.0, 0.0, -1.0);
+	normals.push(0.0, 0.0, -1.0);
+	texCoords.push(1.0, 0.0);
 
     // Generate the sphere's topology (i.e., indices)
     var indices = [];
@@ -89,10 +99,10 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
         });
 
         start = indices.length;
-        offset = start * 2 /* sizeof(gl.UNSIGNED_SHORT) */ ;
+        offset = start * 2;
     }
 
-    // Generate the indices for the South Pole cap
+    // Generate the south indices
     indices.push(n + nSlices);
     indices.push(n);
     for (i = 0; i < nSlices; ++i) {
@@ -117,6 +127,30 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
         gl.STATIC_DRAW);
 
     gl.enableVertexAttribArray(vPosition.location);
+	
+	var vNormal = {
+		numComponents: 3,
+		buffer: gl.createBuffer(),
+		location: gl.getAttribLocation(program, "vNormal")
+	}
+	
+	gl.bindBuffer(gl.ARRAY_BUFFER, vNormal.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals),
+        gl.STATIC_DRAW);
+
+    gl.enableVertexAttribArray(vNormal.location);
+	
+	var vTexCoord = {
+        numComponents: 2,
+        buffer: gl.createBuffer(),
+        location: gl.getAttribLocation(program, "vTexCoord")
+    };
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoord.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoords),
+        gl.STATIC_DRAW);
+
+    gl.enableVertexAttribArray(vTexCoord.location);
 
     var elementArray = {
         buffer: gl.createBuffer()
@@ -125,6 +159,38 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, elementArray.buffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices),
         gl.STATIC_DRAW);
+		
+	var texture = null;
+	var textureHasLoaded = false;
+	
+	var diffuseTexture = gl.createTexture();
+	
+	diffuseTexture.image = new Image();
+	
+	diffuseTexture.image.crossOrigin = "anonymous";
+	
+	diffuseTexture.image.onload = function(){
+		handleTextureLoad(diffuseTexture);
+		//console.log("I have been loaded");
+	}
+	
+    //loads the textures
+	function handleTextureLoad(texture){
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);		
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		//gl.generateMipmap(gl.TEXTURE_2D);
+		gl.bindTexture(gl.TEXTURE_2D, null);
+		textureHasLoaded = true;
+	}
+
+	//TODO: Figure out how to handle CORS domain errors later
+
+	diffuseTexture.image.src = "mars.jpg";
 
     // Initialize our externally viewable variables
     this.PointMode = false;
@@ -135,13 +201,45 @@ function Sphere( slices, stacks, vertexShader, fragmentShader ) {
         gl.useProgram(program);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vPosition.buffer);
-        gl.vertexAttribPointer(vPosition.location, vPosition.numComponents,
-            gl.FLOAT, gl.FALSE, 0, 0);
+        gl.vertexAttribPointer(
+			vPosition.location, 
+			vPosition.numComponents,
+            gl.FLOAT, 
+			gl.FALSE, 
+			0, 
+			0
+		);
+			
+		gl.bindBuffer(gl.ARRAY_BUFFER, vNormal.buffer);
+        gl.vertexAttribPointer(
+			vNormal.location, 
+			vNormal.numComponents,
+            gl.FLOAT, 
+			gl.FALSE, 
+			vNormal.numComponents * Float32Array.BYTES_PER_ELEMENT, 
+			0
+		);
+		
+		gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoord.buffer);
+        gl.vertexAttribPointer(
+			vTexCoord.location, 
+			vTexCoord.numComponents,
+            gl.FLOAT, 
+			gl.FALSE, 
+			vTexCoord.numComponents * Float32Array.BYTES_PER_ELEMENT, 
+			0
+		);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, elementArray.buffer);
+		
+				
+		if(textureHasLoaded){
+			gl.activeTexture(gl.TEXTURE0);
+			gl.bindTexture(gl.TEXTURE_2D, diffuseTexture);
+			gl.uniform1i(this.uniforms.Diffuse, 0);
+		}
 
-        // Iterate across the drawCalls array.  The variable "p" contains
-        // each set of parameters for the gl.drawElements call
+        // Iterate across the drawCalls array
         for (i = 0; i < drawCalls.length; ++i ) {
             var p = drawCalls[i];
             gl.drawElements(this.PointMode ? gl.POINTS : p.type,
