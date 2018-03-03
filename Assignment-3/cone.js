@@ -108,7 +108,8 @@ function init() {
     gl.clearColor( 1.0, 1.0, 0.0, 1.0 );
     gl.enable(gl.DEPTH_TEST)
     thisCone = new Cone(gl,90);
-    render();
+    resize();
+    window.requestAnimationFrame(render);
 }
 
 function render() {
