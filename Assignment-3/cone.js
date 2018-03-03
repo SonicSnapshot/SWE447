@@ -24,7 +24,7 @@ var speed = 1;
 var stoprotating = 0;
 
 function init() {
-    var canvas = document.getElementById( "webgl-canvas" );
+    canvas = document.getElementById( "webgl-canvas" );
 
     gl = WebGLUtils.setupWebGL( canvas );
 
