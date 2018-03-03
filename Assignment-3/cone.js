@@ -140,7 +140,7 @@ function resize() {
     gl.viewport(0,0,width,height);
     var fovy = 120;
     aspect = width/height;
-    thisCone.P = perpspective(fovy,apsect,near,far);
+    thisCone.P = perspective(fovy,apsect,near,far);
 }
 
 function degToRad(degrees) {
