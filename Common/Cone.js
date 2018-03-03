@@ -97,10 +97,13 @@ function Cone( gl, numSides, vertexShaderId, fragmentShaderId ) {
             gl.FLOAT, gl.FALSE, 3 * Float32Array.BYTES_PER_ELEMENT, 0 );
  
         gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.indices.buffer );
+        
+        gl.uniformMatrix4fv(this.uniforms.MV, gl.FALSE, flatten(this.MV));
+        gl.uniformMatrix4fv(this.uniforms.P, gl.FALSE, flatten(this.P));
 
         // Draw the cone's base
         //
-        gl.drawElements( gl.POINTS, this.indices.count, gl.UNSIGNED_SHORT, 0 );
+        gl.drawElements( gl.TRIANGLE_FAN, this.indices.count, gl.UNSIGNED_SHORT, 0 );
 
         // Draw the cone's top
         //
