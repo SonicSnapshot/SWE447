@@ -47,7 +47,7 @@ function init() {
         speed = event.target.value / 10;
     }
     
-    docuemnt.getElementById("xButton").onclick = function() {
+    document.getElementById("xButton").onclick = function() {
         rotationAxis = xAxis;
     }
     
