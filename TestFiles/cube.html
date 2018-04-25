@@ -63,7 +63,7 @@ void main()
     texture2D(uSampler, vTextureCoord + vec2(onePixel.x, 0.0)) +
     texture2D(uSampler, vTextureCoord + vec2(-onePixel.x, 0.0))) / 3.0;*/
     
-    /*******************
+    
     // using a convolution kernel. 3x3 matrix where each entry in the matrix 
     // represents how much to multiply the 8 pixels around the pixel we are rendering.
     vec4 colorSum =
@@ -80,7 +80,6 @@ void main()
    // Divide the sum by the weight but just use rgb
    // we'll set alpha to 1.0
    gl_FragColor = vec4((colorSum / ukernelWeight).rgb, 1.0);
-   *******************/
 }
 </script>
 </head>
