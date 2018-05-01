@@ -80,10 +80,21 @@ void main()
    // Divide the sum by the weight but just use rgb
    // we'll set alpha to 1.0
    gl_FragColor = vec4((colorSum / ukernelWeight).rgb, 1.0);
+
+
 }
 </script>
 </head>
 <body>
 <canvas id="webgl-canvas" width="512" height="512" style="background-color: #0000FF"></canvas>
+<div id="uiContainer">
+  <div id="ui">
+<form id="radio" action="">
+  <input type="radio" name="change" value="blur"> Blur<br>
+  <input type="radio" name="change" value="gausian blur"> Guasian Blur<br>
+  <input type="radio" name="change" value="sharpen"> Sharpen
+</form>
+  </div>
+</div>
 </body>
 </html>

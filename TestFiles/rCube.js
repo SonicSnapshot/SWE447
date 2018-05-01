@@ -234,7 +234,29 @@ function Cube(gl, vertexShaderId, fragmentShaderId) {
      -1, -1, -1
     ];
 
-	this.render = function () {
+    //the kernels to change to
+    var normalKernel = [
+      0, 0, 0,
+      0, 1, 0,
+      0, 0, 0
+    ];
+    var sharpKernel = [
+       0,-1, 0,
+      -1, 5,-1,
+       0,-1, 0
+    ];
+    var blurKernel = [
+       1, 1, 1,
+      1, 1, 1,
+      1, 1, 1
+    ];
+    var gBlurKernel = [
+      1, 2, 1,
+      2, 4, 2,
+      1, 2, 1
+    ];
+
+	this.render = function (name) {
         	gl.useProgram( this.program );
         	gl.bindBuffer( gl.ARRAY_BUFFER, this.positions.buffer );
         	gl.vertexAttribPointer( this.positions.attributeLoc, this.positions.numComponents,
@@ -252,8 +274,24 @@ function Cube(gl, vertexShaderId, fragmentShaderId) {
             gl.bindTexture(gl.TEXTURE_2D, texture);
 		    gl.uniform1i(this.uniforms.uSampler, 0);
             gl.uniform2f(this.uniforms.TextureSize, texImage.width, texImage.height);
-            gl.uniform1fv(this.uniforms.kernelLocation, edgeDetectKernel);
-            gl.uniform1f(this.uniforms.kernelWeightLocation, computeKernelWeight(edgeDetectKernel));
+
+            //normal
+            //gl.uniform1fv(this.uniforms.kernelLocation, normalKernel);
+            //gl.uniform1f(this.uniforms.kernelWeightLocation, computeKernelWeight(normalKernel));
+           
+            //sharp
+            //gl.uniform1fv(this.uniforms.kernelLocation, sharpKernel);
+            //gl.uniform1f(this.uniforms.kernelWeightLocation, computeKernelWeight(sharpKernel));
+
+            //blur
+            //gl.uniform1fv(this.uniforms.kernelLocation, blurKernel);
+            //gl.uniform1f(this.uniforms.kernelWeightLocation, computeKernelWeight(blurKernel));
+
+            //gausian blur
+            gl.uniform1fv(this.uniforms.kernelLocation, gBlurKernel);
+            gl.uniform1f(this.uniforms.kernelWeightLocation, computeKernelWeight(gBlurKernel));
+            
+
 
             gl.drawElements(gl.TRIANGLES, this.indices.values.length, gl.UNSIGNED_SHORT, 0);
     }

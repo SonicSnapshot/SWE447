@@ -21,7 +21,9 @@ function init() {
         return;
     }
 
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    document.getElementById("xButton").onclick = function()
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, flly opaque
     // Enable depth test
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);

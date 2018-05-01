@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<script src='vendor/three.js/build/three.js'></script>
+<script src="vendor/require.js/require.js"></script>
+<script src="vendor/three.js/examples/js/Detector.js"></script>
+<script src="vendor/threex.windowresize.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+<script src="OBJLoader.js"></script>
+<script src="MTLLoader.js"></script>
+<script src='threex.keyboardstate.js'></script>
+<body style='margin: 0px; background-color: #bbbbbb; overflow: hidden;'><script>
+require([], function(){
+	// detect WebGL
+	if( !Detector.webgl ){
+		Detector.addGetWebGLMessage();
+		throw 'WebGL Not Available'
+	} 
+	// setup webgl renderer full page
+	var renderer	= new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+	// setup a scene and camera
+	var scene	= new THREE.Scene();
+	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
+	camera.position.z = 3;
+
+	// declare the rendering loop
+	var onRenderFcts= [];
+
+	// handle window resize events
+	var winResize	= new THREEx.WindowResize(renderer, camera)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		default 3 points lightning					//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	var ambientLight= new THREE.AmbientLight( 0x020202 )
+	scene.add( ambientLight)
+	var frontLight	= new THREE.DirectionalLight('white', 1)
+	frontLight.position.set(0.5, 0.5, 2)
+	scene.add( frontLight )
+	var backLight	= new THREE.DirectionalLight('white', 0.75)
+	backLight.position.set(-0.5, -0.5, -2)
+	scene.add( backLight )		
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add an object and make it move					//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	var geometry	= new THREE.CubeGeometry( 1, 1, 1);
+	var material	= new THREE.MeshPhongMaterial();
+	var mesh	= new THREE.Mesh( geometry, material );
+	scene.add( mesh );
+	
+	onRenderFcts.push(function(delta, now){
+		mesh.rotateX(0.5 * delta);
+		mesh.rotateY(2.0 * delta);		
+	})
+**/
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Submarine				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	//make manager
+	var manager = new THREE.LoadingManager();
+
+	// instantiate a loader
+	var loader = new THREE.OBJLoader(manager);
+
+	var submesh = null;
+
+	// load a resource
+	loader.load("Sub.obj", function(mesh){
+		scene.add(mesh);
+		mesh.scale.set(0.06,0.06,0.06);
+		submesh = mesh;
+		submesh.rotateY(Math.PI/2);
+		submesh.position.x = - 2
+	});
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		CRATE				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+
+	var textureLoader = new THREE.TextureLoader();
+	crateTexture = textureLoader.load('crate/wood2.jpg');
+
+	crate = new THREE.Mesh(
+		new THREE.CubeGeometry(3,3,3),
+		new THREE.MeshPhongMaterial({
+			color:0xffffff,
+			map:crateTexture
+		})
+	);
+	scene.add(crate);
+	crate.scale.set(0.1,0.1,0.1);
+
+
+	function resetCrate(){
+				crate.position.x = 5;
+				crate.position.x += 5 * (Math.random()-0.5);
+				crate.position.y = 2 * (Math.random()-0.5);
+			}
+	resetCrate();
+
+	onRenderFcts.push(function(delta, now){
+		crate.position.x += -1 * delta;
+		if( crate.position.x < -3) resetCrate();
+	});
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Ocean Floor				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	sandTexture = textureLoader.load("Sand.jpg");
+
+	sandCube = new THREE.Mesh(
+		new THREE.CubeGeometry(90,32,32),
+		new THREE.MeshPhongMaterial({
+			color:0xffffff,
+			map: sandTexture
+		})
+	);
+
+		scene.add(sandCube);
+		sandCube.position.y = -20;
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Ocean Background				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	oceanTexture = textureLoader.load('underwater.png');
+	
+	oceanBG = new THREE.Mesh(
+		new THREE.SphereGeometry(90,32,32),
+		new THREE.MeshPhongMaterial({
+			color:0xffffff,
+			map:oceanTexture,
+			side: THREE.BackSide
+		})
+	);
+
+	scene.add(oceanBG);
+
+
+		loader.load("Air_Balloon.obj", function(mesh){
+			balloonMesh = mesh;
+			balloonMesh.scale.set(0.025,0.025,0.025);
+		});
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Crate 2  			//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+
+	crate2 = null;
+	balloonMesh = null;
+
+	function newCrate(oldCrate){
+		crate2 = new THREE.Mesh(
+			new THREE.CubeGeometry(3,3,3),
+			new THREE.MeshPhongMaterial({
+				color:0xffffff,
+				map:crateTexture
+			})
+		);
+
+
+	scene.add(crate2);
+	scene.add(balloonMesh);
+	crate2.scale.set(0.1,0.1,0.1);
+	crate2.position.x = oldCrate.position.x;
+	crate2.position.y = oldCrate.position.y;
+	balloonMesh.position.x = oldCrate.position.x;
+	balloonMesh.position.y = oldCrate.position.y;
+	}
+
+	onRenderFcts.push(function(delta,now){
+		if(crate2 === null) return;
+		crate2.position.y += 1 * delta;
+		if(crate2.position.y > 3) scene.remove(crate2);
+		if(balloonMesh === null) return;
+		balloonMesh.position.y += 1 * delta;
+		if(balloonMesh.position.y > 3) scene.remove(balloonMesh);
+	});
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Keyboard Controls				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	//creat keyboard instance
+	var keyboard = new THREEx.KeyboardState();
+
+	onRenderFcts.push(function(delta, now){
+		if(submesh === null) return;
+
+		var speed = 1;
+
+		if(keyboard.pressed('down')){
+			submesh.position.y -= speed * delta;
+		} else if (keyboard.pressed('up')){
+			submesh.position.y += speed * delta;
+		}
+	})
+
+
+	// when the submarine runs into the crate
+	onRenderFcts.push(function(delta,now){
+		if(submesh === null) return;
+
+		var distance = crate.position.distanceTo(submesh.position)
+		if((distance < 0.3) && (keyboard.pressed('space'))){
+			newCrate(crate);
+			resetCrate();
+		}
+	});
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Camera Controls							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var mouse	= {x : 0, y : 0}
+	document.addEventListener('mousemove', function(event){
+		mouse.x	= (event.clientX / window.innerWidth ) - 0.5
+		mouse.y	= (event.clientY / window.innerHeight) - 0.5
+	}, false)
+	onRenderFcts.push(function(delta, now){
+		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+		camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+		camera.lookAt( scene.position )
+	})
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		render the scene						//
+	//////////////////////////////////////////////////////////////////////////////////
+	onRenderFcts.push(function(){
+		renderer.render( scene, camera );		
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Rendering Loop runner						//
+	//////////////////////////////////////////////////////////////////////////////////
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+})
+</script></body>
